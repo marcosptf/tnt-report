@@ -1,0 +1,35 @@
+{% extends "layout.html" %}
+{% block body %}
+<body class="yui3-skin-sam">
+    <ul class="entries">
+	<div id="sort"></div>
+        <a href="reportcsv/report.csv" > baixar o relatorio </a>
+    </ul>
+{% autoescape false %}
+<script type="text/javascript">
+/*
+YUI().use("datatable-sort",function(Y){
+        var cols = [
+            {key:"CCID", label:"ccid", sortable:true},
+            {key:"PartnerID", label:"Partner ID", sortable:true},
+            {key:"EmailDaLicensa", label:"Email da Licensa", sortable:true},
+            {key:"SKU", label:"Sku", sortable:true},
+            {key:"Licensa", label:"Licensa", sortable:true},
+            {key:"DataDeAtivacao", label:"Data de Ativacao", sortable:true},
+            {key:"Pacote", label:"Pacote", sortable:true}
+        ],
+            data = [
+                {{ entries }}
+        ],
+            table = new Y.DataTable({
+	    	columns : cols,
+		data    : data,
+		summary : "",
+		caption : ""
+	}).render("#sort");
+});
+*/
+</script>
+{% endautoescape %}
+</body>
+{% endblock %}

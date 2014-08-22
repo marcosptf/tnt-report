@@ -1,0 +1,52 @@
+{% extends "layout.html" %}
+{% block body %}
+      <form action="/report" method="post" class="add-entry" >
+        <dl>
+             <dd>
+             <dt>Escolha o Mês:
+		<select name="mes">
+		    <option value="1">Janeiro</option>
+		    <option value="2">Fevereiro</option>
+		    <option value="3">Março</option>
+		    <option value="4">Abril</option>
+		    <option value="5">Maio</option>
+		    <option value="6">Junho</option>
+		    <option value="7">Julho</option>
+		    <option value="8">Agosto</option>
+		    <option value="9">Setembro</option>
+		    <option value="10">Outubro</option>
+		    <option value="11">Novembro</option>
+		    <option value="12">Dezembro</option>
+		</select>
+             <dd>
+             <dt>Escolha o Ano:  
+		<select name="ano">
+		    <option value="2013">2013</option>
+		    <option value="2014">2014</option>
+		</select>
+             <dd> 
+             <dt>Escolha o sistema/país:
+		<select name="pais">
+                    <option value="tss-ch">Tss - Chile</option>
+                    <option value="tss-ar">Tss - Argentina</option>
+                    <option value="tss-mx">Tss - Mexico</option>
+                    <option value="tss-br">Tss - Brazil</option>
+                    <option value="tss-rd">Tss - Republica Dominicana</option>
+                    <option value="tss-gt">Tss - Guatemala</option>
+                    <option value="tss-co">Tss - Colombia</option>
+                    <option value="tss-pe">Tss - Peru</option>
+                    <option value="tfx-ch">TssFixo - Chile</option>
+                    <option value="tfx-gt">TssFixo - Guatemala</option>
+                    <option value="tfx-eq">TssFixo - Equador</option>
+                    <option value="tfx-rd">TssFixo - Republica Dominicana</option>
+                    <option value="tfx-br">TssFixo - Brazil</option>
+                    <option value="tmb-br">TssMobile - Brazil</option>
+                    <option value="tmb-ar">TssMobile - Argentina</option>
+                    <option value="tnt-mx">TNTSecurity - Mexico</option>
+                </select>
+             <br/><br/>
+             <dt><input type="submit" name="relatorioMcAfee" value="Exibir Relatório" />
+             <a href="/type_report"><button value="Exibir Relatório" />Voltar</button></a>
+         </dl>
+        </form>
+{% endblock %}

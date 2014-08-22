@@ -1,0 +1,35 @@
+{% extends "layout.html" %}
+{% block body %}
+<body class="yui3-skin-sam">
+    <ul class="entries">
+        <a href="/download" > baixar o relatorio em .csv</a>
+	<div id="dtable"></div>
+    </ul>
+{% autoescape false %}
+<script type="text/javascript">
+
+YUI().use('datatable', 'datatable-paginator', 'datatype-number', function (Y) {
+
+    var table = new Y.DataTable({
+        columns: [
+             {key:"CCID", label:"ccid"},
+             {key:"PartnerID", label:"Partner ID"},
+             {key:"EmailDaLicensa", label:"Email da Licensa"},
+             {key:"SKU", label:"Sku"},
+             {key:"Licensa", label:"Licensa"},
+             {key:"DataDeAtivacao", label:"Data de Ativacao"},
+             {key:"Pacote", label:"Pacote"}
+        ],
+        data:[ 
+		{{ entries }}
+	],
+        rowsPerPage: 10,
+        paginatorLocation: ['header', 'footer']
+    });
+    table.render('#dtable');
+});
+
+</script>
+{% endautoescape %}
+</body>
+{% endblock %}

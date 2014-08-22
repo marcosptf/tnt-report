@@ -1,0 +1,16 @@
+{% extends "layout.html" %}  
+{% block body %}
+    <form action="/login" method="post" class="add-entry" >
+      <center>
+      <dl>
+         <dt>usuario:
+         <dd><input type="text" name="username" />
+         <dt>senha:
+         <dd><input type="password" name="password" />
+         <dt>
+         <dd><input type="submit" value="login" />
+     </dl>
+     </center>
+     </form>
+ {% endblock %}
+

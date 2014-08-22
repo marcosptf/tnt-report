@@ -1,0 +1,16 @@
+{% extends "layout.html" %}
+ {% block body %}
+    <form action="/mcafee_report" method="post" class="add-entry" >
+      <dl>
+        <dt>
+	  <dd><dd><input type="submit" name="relatorioMcAfee" value="Relatorio McAfee Repase Recorrente" />
+	</dt>
+      </dl>
+      <dl>
+        <dt> 	
+          <dd><dd><input type="submit" name="relatorioAutomatizadoOiEmpresas" value="Relatorio Automatizado - Oi Empresas" />
+        </dt>    
+      </dl>
+    </form>
+{% endblock %}
+
