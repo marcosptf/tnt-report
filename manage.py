@@ -20,6 +20,29 @@ app.config.update(dict(
 def index():
     return render_template('index.html')
 
+def report_name(name):
+
+    report = {
+        "tss-ch" : "Tss Chile",
+	"tss-ar" : "Tss Argentina",
+	"tss-mx" : "Tss Mexico",
+	"tss-br" : "Tss Brasil",
+	"tss-rd" : "Tss Republica Dominicana",
+	"tss-gt" : "Tss Guatemala",
+	"tss-co" : "Tss Colombia",
+	"tss-pe" : "Tss Peru",
+	"tfx-ch" : "Tss Fixo Chile",
+	"tfx-gt" : "Tss Fixo Guatemala",
+	"tfx-eq" : "Tss Fixo Equador",
+	"tfx-rd" : "Tss Fixo Republica Dominicana",
+	"tfx-br" : "Tss Fixo Brasil",
+	"tmb-br" : "Tss Mobile Brasil",
+	"tmb-ar" : "Tss Mobile Argentina",
+	"tnt-mx" : "TNT Mexico",
+	"tis-oi" : "Tis Oi BR"
+    }
+    return report[name]
+
 @app.route('/report', methods=['POST'])
 def show_entries():
     secure_login()
@@ -31,6 +54,10 @@ def show_entries():
     	mes = reportType['mes']
     	ano = reportType['ano']
     	pais = reportType['pais']
+        if 'paginator' in reportType:
+            template = reportType['paginator']
+        else:
+            template = 'show_entries2.html'
     	entries = respQuery(mes,ano,pais,0)
     	data = tablib.Dataset()
     	data.headers = ['CCID','PartnerID','EmaildaLicensa','SKU','Licensa','DataDeAtivacao','Pacote']
@@ -38,6 +65,7 @@ def show_entries():
     	count = 0  
     	commas = ","
     	jsonYUI = ""
+        report = report_name(pais)
         for entry in entries: 
             count+=1
             if count==counter: 
@@ -47,7 +75,7 @@ def show_entries():
 	    data.append([entry.CCID,entry.PartnerID,entry.EmailDaLicensa,entry.SKU,entry.Licensa,entry.DataDeAtivacao,entry.Pacote])
         with open('reportcsv/report.csv', 'wb') as f:
             f.write(data.csv)
-    	return render_template('show_entries2.html', entries=jsonYUI)
+    	return render_template(template, entries=jsonYUI,counter=counter, mes=mes, ano=ano, pais=pais, report=report)
 
 
     #relatorioTisOiAtivos
@@ -62,6 +90,11 @@ def show_entries():
         count = 0
         commas = ","
         jsonYUI = ""
+	report = report_name(pais)
+        if 'paginator' in reportType:
+            template = reportType['paginator']
+        else:
+            template = 'show_entries3.html'
 
         for entry in entries:
             count+=1
@@ -72,8 +105,7 @@ def show_entries():
             data.append([entry.msisdn,entry.produto,entry.pacote,entry.dt_compra,entry.valor,entry.ds_channelsale])
         with open('reportcsv/report.csv', 'wb') as f:
             f.write(data.csv)
-        return render_template('show_entries3.html', entries=jsonYUI)
-
+        return render_template(template, entries=jsonYUI,counter=counter, mes=mes, ano=ano, pais=pais, report=report)
     
     #relatorioTisOiCancelados
     if 'relatorioAutomatizadoOiCancelados' in reportType:
@@ -87,7 +119,11 @@ def show_entries():
         count = 0
         commas = ","
         jsonYUI = ""
-
+        if 'paginator' in reportType:
+            template = reportType['paginator']
+        else:
+            template = 'show_entries4.html'
+        report = report_name(pais)
         for entry in entries:
             count+=1
             if count==counter:
@@ -97,7 +133,7 @@ def show_entries():
             data.append([entry.msisdn,entry.produto,entry.pacote,entry.dt_compra,entry.dt_cancel,entry.valor,entry.ds_channelsale,entry.ds_profile])
         with open('reportcsv/report.csv', 'wb') as f:
             f.write(data.csv)
-        return render_template('show_entries4.html', entries=jsonYUI)
+        return render_template(template, entries=jsonYUI,counter=counter, mes=mes, ano=ano, pais=pais, report=report)
 
     return redirect(url_for('type_report'))
 

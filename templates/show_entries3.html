@@ -1,10 +1,25 @@
 {% extends "layout.html" %}
 {% block body %}
 <body class="yui3-skin-sam">
+  <form name="showReport" action="/report" method="POST">
     <ul class="entries">
-        <a href="/download" > baixar o relatorio em .csv</a>
-	<div id="dtable"></div>
+      <center>
+	 Relatorio OI Empresas (Ativos) - {{ mes }}/{{ ano }} - {{ report }} <br/>
+         <a href="/download" > baixar o relatorio em .csv</a> - <input type="submit" name="chooseTemplate" value="Datatable - Sort" />
+      </center>
+       <br/>
+       <div id="sort"></div>
+       <br/>
+       <center>
+          Total de registros: {{ counter }}
+       </center>
+       <br/>
+       <input type="hidden" name="mes"  value="{{ mes }}"  />
+       <input type="hidden" name="ano"  value="{{ ano }}"  />
+       <input type="hidden" name="paginator" value="show_entries6.html" />
+       <input type="hidden" name="relatorioAutomatizadoOiAtivos" value="relatorioAutomatizadoOiAtivos" />
     </ul>
+   </form>
 {% autoescape false %}
 <script type="text/javascript">
 
@@ -25,7 +40,7 @@ YUI().use('datatable', 'datatable-paginator', 'datatype-number', function (Y) {
         rowsPerPage: 10,
         paginatorLocation: ['header', 'footer']
     });
-    table.render('#dtable');
+    table.render('#sort');
 });
 
 </script>

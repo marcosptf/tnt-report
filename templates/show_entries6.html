@@ -1,0 +1,48 @@
+{% extends "layout.html" %}
+{% block body %}
+<body class="yui3-skin-sam">
+  <form name="showReport" action="/report" method="POST">
+    <ul class="entries">
+      <center>
+	Relatorio OI Empresas (Ativos) - {{ mes }}/{{ ano }} - {{ report }} <br/>
+         <a href="/download" > baixar o relatorio em .csv</a> - <input type="submit" name="chooseTemplate" value="Datatable - Paginator" />
+      </center>
+       <br/>
+       <div id="sort"></div>
+       <br/>
+       <center>
+          Total de registros: {{ counter }}
+       </center>
+       <br/>
+       <input type="hidden" name="mes"  value="{{ mes }}"  />
+       <input type="hidden" name="ano"  value="{{ ano }}"  />
+       <input type="hidden" name="paginator" value="show_entries3.html" />
+       <input type="hidden" name="relatorioAutomatizadoOiAtivos" value="relatorioAutomatizadoOiAtivos" />
+    </ul>
+   </form>
+{% autoescape false %}
+<script type="text/javascript">
+YUI().use("datatable-sort",function(Y){
+         var cols = [
+            {key:"Msisdn", label:"Msisdn", sortable:true},
+            {key:"Produto", label:"Produto", sortable:true},
+            {key:"Pacote", label:"Pacote", sortable:true},
+            {key:"dt_compra", label:"Data da Compra", sortable:true},
+            {key:"Valor", label:"Valor", sortable:true},
+            {key:"ds_channelsale", label:"Canal de Venda", sortable:true}
+        ],
+            data = [
+             {{ entries }}
+        ],
+            table = new Y.DataTable({
+               columns : cols,
+                data    : data,
+                summary : "",
+                caption : ""
+        }).render("#sort");
+});
+
+</script>
+{% endautoescape %}
+</body>
+{% endblock %}

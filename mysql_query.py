@@ -3,7 +3,7 @@
 from mysql_base import Base,A
 from sqlalchemy import create_engine
 
-mysqlTest  = "mysql://root:123456@localhost/test"
+#mysqlTssBR = "mysql://root:123456@localhost/tssfixo_br"
 mysqlTssBR = "mysql://root:123456@localhost/tis_oi_br"
 
 def respQuery(mes,ano,pais,report):
@@ -79,8 +79,8 @@ def respQuery(mes,ano,pais,report):
 	INNER JOIN 		package                  as pac ON pac.id           = acq.package_id
 
 	WHERE 			l.vendor_integration_status = "PROVISIONED"
-	AND 			l.created > date("2014-01-01");
-        """ % (ano,mes,ano,mes)
+	AND 			l.created > date("%s-%s");
+        """ % (ano,mes)
 
     queryTISAtivos = """
         /* usuários ativos na base */
