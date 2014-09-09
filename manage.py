@@ -39,7 +39,8 @@ def report_name(name):
 	"tmb-br" : "Tss Mobile Brasil",
 	"tmb-ar" : "Tss Mobile Argentina",
 	"tnt-mx" : "TNT Mexico",
-	"tis-oi" : "Tis Oi BR"
+	"tis-oi" : "Tis Oi BR",
+        "nas-br" : "Net Assist"
     }
     return report[name]
 
@@ -75,6 +76,8 @@ def show_entries():
 	    data.append([entry.CCID,entry.PartnerID,entry.EmailDaLicensa,entry.SKU,entry.Licensa,entry.DataDeAtivacao,entry.Pacote])
         with open('reportcsv/report.csv', 'wb') as f:
             f.write(data.csv)
+
+	jsonYUI = jsonYUI.decode("utf-8", 'ignore')
     	return render_template(template, entries=jsonYUI,counter=counter, mes=mes, ano=ano, pais=pais, report=report)
 
 
@@ -105,6 +108,8 @@ def show_entries():
             data.append([entry.msisdn,entry.produto,entry.pacote,entry.dt_compra,entry.valor,entry.ds_channelsale])
         with open('reportcsv/report.csv', 'wb') as f:
             f.write(data.csv)
+
+	jsonYUI = jsonYUI.decode("utf-8", 'ignore')
         return render_template(template, entries=jsonYUI,counter=counter, mes=mes, ano=ano, pais=pais, report=report)
     
     #relatorioTisOiCancelados
@@ -133,9 +138,43 @@ def show_entries():
             data.append([entry.msisdn,entry.produto,entry.pacote,entry.dt_compra,entry.dt_cancel,entry.valor,entry.ds_channelsale,entry.ds_profile])
         with open('reportcsv/report.csv', 'wb') as f:
             f.write(data.csv)
+
+	jsonYUI = jsonYUI.decode("utf-8", 'ignore')
+        return render_template(template, entries=jsonYUI,counter=counter, mes=mes, ano=ano, pais=pais, report=report)
+
+    
+    #relatorioNetAssist
+    if 'relatorioNetAssist' in reportType:
+        mes = reportType['mes']
+        ano = reportType['ano']
+        pais = 'nas-br'
+        entries = respQuery(mes,ano,pais,0)
+        data = tablib.Dataset()
+        data.headers = ['Email','Cpf/Cnpj','Pacote','Data','Status']
+        counter = len(entries)
+        count = 0 
+        commas = "," 
+        jsonYUI = ""
+        if 'paginator' in reportType:
+            template = reportType['paginator']
+        else:
+            template = 'show_entries8.html'
+        report = report_name(pais)
+        for entry in entries:
+            count+=1
+            if count==counter:
+                commas = ""
+            jsonYUI+= "{Email:'%s',CpfCnpj:'%s',Pacote:'%s',Data:'%s',Status:'%s'} %s " % (entry.email,entry.cpfcnpj,entry.pacote,entry.data,entry.status,commas)
+            data.append([entry.email,entry.cpfcnpj,entry.pacote,entry.data,entry.status])
+        with open('reportcsv/report.csv', 'wb') as f:
+            f.write(data.csv)
+
+	jsonYUI = jsonYUI.decode("utf-8", 'ignore')
         return render_template(template, entries=jsonYUI,counter=counter, mes=mes, ano=ano, pais=pais, report=report)
 
     return redirect(url_for('type_report'))
+
+
 
 @app.route('/download',methods=['GET'])
 def download():
@@ -158,6 +197,10 @@ def mcafee_report():
     if 'relatorioAutomatizadoOiEmpresas' in reportType: 
         flash('Relatorio Automatizado Oi Empresas')
         return render_template('oi_report.html')
+
+    if 'relatorioNetAssist' in reportType: 
+        flash('Relatorio Net Assist - Tss Help Desk')
+        return render_template('netassist_report.html')
 
     return redirect(url_for('type_report'))
 

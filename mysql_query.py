@@ -10,9 +10,8 @@ def respQuery(mes,ano,pais,report):
    
     paisMySql = {
     }
- 
-    #engine = create_engine(paisMySql[pais])
-    engine = create_engine(mysqlTssBR)
+    engine = create_engine(paisMySql[pais])
+    #engine = create_engine(mysqlTssBR)
     connection = engine.connect()
 
     queryTFX = """
@@ -36,13 +35,13 @@ def respQuery(mes,ano,pais,report):
         """ % (ano,mes,ano,mes)
 
     queryTSS = """
-        SELECT                  '712' 			as partnerId, #valor recuperado da application.ini
+        SELECT                  '712' 			as PartnerID, #valor recuperado da application.ini
                                 pa.idPacoteAquisicao 	as CCID,
-                                l.ds_login 		as email,
-                                p.ds_pacote 		as pacote,
-                                l.cod_sku 		as sku,
-                                l.dt_inicio 		as data,
-                                l.ds_licenca 		as licenca
+                                l.ds_login 		as EmailDaLicensa,
+                                p.ds_pacote 		as Pacote,
+                                l.cod_sku 		as SKU,
+                                l.dt_inicio 		as DataDeAtivacao,
+                                l.ds_licenca 		as Licensa
 
         FROM 			licenca 	        as l
         INNER JOIN 		pacoteaquisicao 	as pa ON pa.idPacoteAquisicao 	= l.idPacoteAquisicao
@@ -101,7 +100,22 @@ def respQuery(mes,ano,pais,report):
 
 	where 			p.`status` in (-1,1,2,3,8); 
     """
+    queryNetAssist = """
+	select   		c.email						as email,
+   				c.CpfCnpj					as cpfcnpj,
+   				cast(concat('00', c.codigoPlano) as char (40)) 	as pacote,
+   				l.dt_insercao 					as data,
+   				case 	l.st_licenca
+       				    WHEN '1' 
+					THEN 'ATIVO'
+   				    ELSE  'CANCELADO'
+			   	END 
+										as status
 
+	from   			cliente 					as c
+       	inner join   		licenca 				  	as l ON l.idCliente = c.id_cliente
+	order by 		1 desc;
+    """
     queryTISCancelados = """
 	/* usuários cancelados na base */
 	select 			cp.ds_phone 		as msisdn, 
@@ -129,13 +143,15 @@ def respQuery(mes,ano,pais,report):
     """
 
     if pais[0:1+2]=="tss":
-        result = connection.execute(queryTss)
+        result = connection.execute(queryTSS)
     elif pais[0:1+2]=="tfx":
 	result = connection.execute(queryTFX)
     elif pais[0:1+2]=="tmb":
 	result = connection.execute(queryTMB)
     elif pais[0:1+2]=="tnt":
 	result = connection.execute(queryTNT)
+    elif pais[0:1+2]=="nas":
+        result = connection.execute(queryNetAssist)
     elif pais[0:1+2]=="tis" and report==1:
         result = connection.execute(queryTISAtivos)
     elif pais[0:1+2]=="tis" and report==2:

@@ -1,6 +1,7 @@
 {% extends "layout.html" %}
 {% block body %}
 <body class="yui3-skin-sam">
+{% autoescape False %}
    <form name="showReport" action="/report" method="POST">
     <ul class="entries">
        <center>
@@ -21,7 +22,6 @@
        <input type="hidden" name="relatorioMcAfee" value="relatorioMcAfee" />
     </ul>
    </form> 
-{% autoescape false %}
 <script type="text/javascript">
 
 YUI().use('datatable', 'datatable-paginator', 'datatype-number', function (Y) {

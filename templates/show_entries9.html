@@ -1,0 +1,50 @@
+{% extends "layout.html" %}
+{% block body %}
+<body class="yui3-skin-sam">
+   <form name="showReport" action="/report" method="POST">
+    <ul class="entries">
+       <center>
+         Relatorio - <!-- {{ mes }}/{{ ano }} --> {{ report }} <br/>
+         <a href="/download" > baixar o relatorio em .csv</a> - <input type="submit" name="chooseTemplate" value="Datatable - Paginator" />
+       </center>
+       <br/>
+       <div id="sort"></div>
+       <br/>
+       <center>
+          Total de registros: {{ counter }}
+       </center>
+       <br/>
+       <input type="hidden" name="mes"  value="{{ mes }}"  />
+       <input type="hidden" name="ano"  value="{{ ano }}"  />
+       <input type="hidden" name="pais" value="{{ pais }}" />
+       <input type="hidden" name="paginator" value="show_entries8.html" />
+       <input type="hidden" name="relatorioNetAssist" value="relatorioNetAssist" />
+    </ul>
+   </form>
+{% autoescape false %}
+<script type="text/javascript">
+
+YUI().use("datatable-sort",function(Y){
+        var cols = [
+		{key:"Email", label:"email", sortable:true},
+		{key:"CpfCnpj", label:"Cpf-Cnpj", sortable:true},
+		{key:"Pacote", label:"Pacote", sortable:true},
+		{key:"Data", label:"Data", sortable:true},
+		{key:"Status", label:"Status", sortable:true}
+        ],
+            data = [
+             {{ entries }}
+        ],
+            table = new Y.DataTable({
+               columns : cols,
+                data    : data,
+                summary : "",
+                caption : ""
+        }).render("#sort");
+});
+
+</script>
+{% endautoescape %}
+</body>
+{% endblock %}
+
