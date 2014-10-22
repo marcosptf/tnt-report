@@ -88,7 +88,7 @@ def show_entries():
         pais = 'tis-oi'
         entries = respQuery(mes,ano,pais,1)
         data = tablib.Dataset()
-        data.headers = ['Msisdn','Produto','Pacote','DataCompra','Valor','CanalDeVenda']
+        data.headers = ['Msisdn','Email','Produto','Pacote','DataCompra','Valor','CanalDeVenda']
         counter = len(entries)
         count = 0
         commas = ","
@@ -103,9 +103,9 @@ def show_entries():
             count+=1
             if count==counter:
                 commas = ""
-            jsonYUI+= "{Msisdn:'%s',Produto:'%s',Pacote:'%s',DataCompra:'%s',Valor:'%s',CanalDeVenda:'%s'} %s " % \
-            (entry.msisdn,entry.produto,entry.pacote,entry.dt_compra,entry.valor,entry.ds_channelsale,commas)
-            data.append([entry.msisdn,entry.produto,entry.pacote,entry.dt_compra,entry.valor,entry.ds_channelsale])
+            jsonYUI+= "{Msisdn:'%s',Email:'%s',Produto:'%s',Pacote:'%s',DataCompra:'%s',Valor:'%s',CanalDeVenda:'%s'} %s " % \
+            (entry.msisdn,entry.email,entry.produto,entry.pacote,entry.dt_compra,entry.valor,entry.ds_channelsale,commas)
+            data.append([entry.msisdn,entry.email,entry.produto,entry.pacote,entry.dt_compra,entry.valor,entry.ds_channelsale])
         with open('reportcsv/report.csv', 'wb') as f:
             f.write(data.csv)
 
@@ -119,7 +119,7 @@ def show_entries():
         pais = 'tis-oi'
         entries = respQuery(mes,ano,pais,2)
         data = tablib.Dataset()
-        data.headers = ['Msisdn','Produto','Pacote','DataCompra','DataDeCancelamento','Valor','CanalDeVenda','UsuarioCancelamento']
+        data.headers = ['Msisdn','Email','Produto','Pacote','DataCompra','DataDeCancelamento','Valor','CanalDeVenda','UsuarioCancelamento']
         counter = len(entries)
         count = 0
         commas = ","
@@ -133,9 +133,9 @@ def show_entries():
             count+=1
             if count==counter:
                 commas = ""
-            jsonYUI+= "{Msisdn:'%s',Produto:'%s',Pacote:'%s',DataCompra:'%s',DataDeCancelamento:'%s',Valor:'%s',CanalDeVenda:'%s',UsuarioCancelamento:'%s'} %s " % \
-            (entry.msisdn,entry.produto,entry.pacote,entry.dt_compra,entry.dt_cancel,entry.valor,entry.ds_channelsale,entry.ds_profile,commas)
-            data.append([entry.msisdn,entry.produto,entry.pacote,entry.dt_compra,entry.dt_cancel,entry.valor,entry.ds_channelsale,entry.ds_profile])
+            jsonYUI+= "{Msisdn:'%s',Email:'%s',Produto:'%s',Pacote:'%s',DataCompra:'%s',DataDeCancelamento:'%s',Valor:'%s',CanalDeVenda:'%s',UsuarioCancelamento:'%s'} %s " % \
+            (entry.msisdn,entry.email,entry.produto,entry.pacote,entry.dt_compra,entry.dt_cancel,entry.valor,entry.ds_channelsale,entry.ds_profile,commas)
+            data.append([entry.msisdn,entry.email,entry.produto,entry.pacote,entry.dt_compra,entry.dt_cancel,entry.valor,entry.ds_channelsale,entry.ds_profile])
         with open('reportcsv/report.csv', 'wb') as f:
             f.write(data.csv)
 
