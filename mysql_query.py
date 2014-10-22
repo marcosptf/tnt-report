@@ -9,6 +9,24 @@ mysqlTssBR = "mysql://root:123456@localhost/tis_oi_br"
 def respQuery(mes,ano,pais,report):
    
     paisMySql = {
+	"tss-ch" : "mysql://tss_chile:HmverJABzyPy2bEh@201.20.34.19/tss_chile",
+	"tss-ar" : "mysql://tss_argentina:jEd:bhDAFtGzZ5Ky@201.20.34.19/tss_argentina",
+	"tss-mx" : "mysql://tss_mexico:wpcLLMyQYd:HDae6@201.20.34.19/tss_mexico",
+	"tss-br" : "mysql://tss_brasil:pnTfcsZ8GLFfHL3e@201.20.34.19/tss_brasil",
+	"tss-rd" : "mysql://tss_rdominicana:xNY559s8L8AL2UsU@201.20.34.19/tss_rdominicana",
+	"tss-gt" : "mysql://tss_guatemala:5jWNpMYmuqLRehzX@201.20.34.19/tss_guatemala",
+	"tss-co" : "mysql://tss_colombia:Csm5xXKGXQE3NHYJ@201.20.34.19/tss_colombia",
+	"tss-pe" : "mysql://tss_peru:MzpDs9aQZJDrc5sB@201.20.34.19/tss_peru",
+	"tfx-ch" : "mysql://tssfixo_ch:tssfixo_ch#123@201.20.34.19/tssfixo_ch",
+	"tfx-gt" : "mysql://tssfixo_gt:6#ZUYrLuOD8@201.20.34.19/tssfixo_gt",
+	"tfx-eq" : "mysql://tssfixo_ec:3DbGKTgAxxUOognF@201.20.34.19/tssfixo_ec",
+	"tfx-rd" : "mysql://tssfixo_do:7sjbjS8czd@201.20.34.19/tssfixo_do",
+	"tfx-br" : "mysql://net_brasil:9ryDSmHP7ZGs26qR@201.20.34.19/tssfixo_br",
+	"tmb-br" : "mysql://tssmobile_br:u7MALK7qBtTHm95U@201.20.34.19/mobile_br",
+	"tmb-ar" : "mysql://integradora:titans#123@201.20.34.19/mobile_ar",
+	"tnt-mx" : "mysql://tnt-security:3K55qh9yBoxUsX@db7b.security.aws1a.prod.titansgroup.net/tnt-security",
+	"tis-oi" : "mysql://tis_app:5P1Q3vCYj59sbbx@db1a.security.aws1.prod.titansgroup.net/tis_oi_br",
+	"nas-br" : "mysql://tss_helpdesk:dHNzaGVscC1kZXNrJQ==@201.20.34.19/tss_helpdesk"
     }
     engine = create_engine(paisMySql[pais])
     #engine = create_engine(mysqlTssBR)
@@ -84,6 +102,7 @@ def respQuery(mes,ano,pais,report):
     queryTISAtivos = """
         /* usuários ativos na base */
 	select 			cp.ds_phone 		as msisdn, 
+				p.ds_email              as email,
 				pr.ds_product 		as produto,
 				pa.`name` 		as pacote,
 				p.dt_acquisition 	as dt_compra,
@@ -119,6 +138,7 @@ def respQuery(mes,ano,pais,report):
     queryTISCancelados = """
 	/* usuários cancelados na base */
 	select 			cp.ds_phone 		as msisdn, 
+				p.ds_email              as email, 
 				pr.ds_product 		as produto,
 				pa.`name` 		as pacote,
 				p.dt_acquisition 	as dt_compra,
