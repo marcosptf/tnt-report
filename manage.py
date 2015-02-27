@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+#@todo: fazer reanalize e melhorias
 
 import os
 import tablib
