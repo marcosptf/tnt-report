@@ -20,6 +20,7 @@ app.config.update(dict(
 @app.route('/')
 def index():
     return render_template('index.html')
+    
 
 def report_name(name):
 
