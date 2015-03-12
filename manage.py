@@ -240,7 +240,11 @@ def logout():
 
 
 if __name__ == '__main__':
-    app.run()
+#roda o app normal usando o 127.0.0.1:5000	
+    app.run() # roda assim python manage.py runserver
+#se caso quisermos acessar a aplicacao de qualquer host dentro da intranet    
+#    app.run(host='0.0.0.0',port=5000,debug=True)  roda asim => python manage.py
+
 
 
 
